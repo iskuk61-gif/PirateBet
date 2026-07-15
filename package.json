@@ -1,1 +1,22 @@
-{\n  "name": "piratebet",\n  "version": "1.0.0",\n  "description": "Discord Gambling Bot\",\n  "private": true,\n  "type": "module",\n  "packageManager": "pnpm@8.15.0",\n  "engines": {\n    "pnpm": ">=8.0.0",\n    "node": ">=18.0.0"\n  },\n  "scripts": {\n    "build": "pnpm -r build",\n    "start": "node --enable-source-maps artifacts/api-server/dist/index.mjs",\n    "dev": "pnpm -r dev",\n    "type-check": "pnpm -r type-check"\n  },\n  "devDependencies": {\n    "typescript": "^5.3.3",\n    "@types/node": "^20.10.6"\n  }\n}\n
+{
+  "name": "piratebet",
+  "version": "1.0.0",
+  "description": "Discord Gambling Bot",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@8.15.0",
+  "engines": {
+    "pnpm": ">=8.0.0",
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "pnpm -r build",
+    "start": "node --enable-source-maps artifacts/api-server/dist/index.mjs",
+    "dev": "pnpm -r dev",
+    "type-check": "pnpm -r type-check"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "@types/node": "^20.10.6"
+  }
+}
