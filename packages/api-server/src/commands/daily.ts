@@ -1,0 +1,60 @@
+import { Message } from 'discord.js';
+import { db, users, commandCooldowns } from '@workspace/db';
+import { eq, and } from 'drizzle-orm';
+import { baseEmbed, winEmbed } from '../utils/embeds';
+
+export default {
+  async execute(msg: Message) {
+    let user = await db.query.users.findFirst({
+      where: eq(users.discordId, msg.author.id),
+    });
+
+    if (!user) {
+      await db.insert(users).values({
+        discordId: msg.author.id,
+        username: msg.author.username,
+      });
+      user = await db.query.users.findFirst({
+        where: eq(users.discordId, msg.author.id),
+      });
+    }
+
+    const cooldown = await db.query.commandCooldowns.findFirst({
+      where: and(
+        eq(commandCooldowns.discordId, msg.author.id),
+        eq(commandCooldowns.command, 'daily'),
+      ),
+    });
+
+    if (cooldown && new Date(cooldown.expiresAt) > new Date()) {
+      return msg.reply(`❌ Cooldown active. Try again <t:${Math.floor(new Date(cooldown.expiresAt).getTime() / 1000)}:R>`);
+    }
+
+    const amount = 0.01;
+    await db.update(users)
+      .set({ balance: `${Number(user!.balance) + amount}` })
+      .where(eq(users.discordId, msg.author.id));
+
+    const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
+    if (cooldown) {
+      await db.update(commandCooldowns)
+        .set({ expiresAt })
+        .where(and(
+          eq(commandCooldowns.discordId, msg.author.id),
+          eq(commandCooldowns.command, 'daily'),
+        ));
+    } else {
+      await db.insert(commandCooldowns).values({
+        discordId: msg.author.id,
+        command: 'daily',
+        expiresAt,
+      });
+    }
+
+    const embed = winEmbed()
+      .setTitle('🎁 Daily Bonus Claimed')
+      .addFields({ name: 'Amount', value: `+$${amount}`, inline: true });
+
+    msg.reply({ embeds: [embed] });
+  },
+};
