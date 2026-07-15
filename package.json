@@ -1,0 +1,17 @@
+{
+  "name": "piratebet",
+  "version": "1.0.0",
+  "description": "Discord Gambling Bot",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "pnpm -r build",
+    "start": "node --enable-source-maps artifacts/api-server/dist/index.mjs",
+    "dev": "pnpm -r dev",
+    "type-check": "pnpm -r type-check"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "@types/node": "^20.10.6"
+  }
+}
