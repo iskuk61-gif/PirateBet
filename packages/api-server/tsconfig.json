@@ -1,1 +1,9 @@
-{"extends":"../../tsconfig.json","compilerOptions":{"outDir":"./dist","target":"ES2020","module":"ESNext"},"include":["src/**/*"]}
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "target": "ES2020",
+    "module": "ESNext"
+  },
+  "include": ["src/**/*"]
+}
